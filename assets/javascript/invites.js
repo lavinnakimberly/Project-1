@@ -50,7 +50,7 @@ function showMap() {
 		var marker = new google.maps.Marker({
 			position: position,
 			map: map,
-			title: 'Hello World!'
+			title: peopleInvited[i].inviteName
 		});
 	}
 }
