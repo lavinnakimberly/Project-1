@@ -9,11 +9,17 @@ invites.on("child_added", function(peopleRef) {
 		var person = personRef.val();
 		var key = personRef.getKey();
 		var inviteName = person.name;
+		var isAvailable = person.isAvailable;
+		var longitude  = person.lng;
+		var latitude  = person.lat;
+//		var inviteID = person.getKey();
 
 		//Create DIV to hold data
 		var person_div = $("<div>");
-		person_div.html(inviteName);
+		person_div.html(inviteName + " | " + isAvailable + " ["+ key + "]" + "( " + longitude + " , " + latitude + " )");
 		$("#inviteList").append(person_div);
+
+		//put markers on map
 	})
 })
 
