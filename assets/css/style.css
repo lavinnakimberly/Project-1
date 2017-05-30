@@ -1,0 +1,39 @@
+body {
+	text-align: center;
+	padding: 20px;
+	
+}
+
+.friends {
+	font-size: 20px;
+	color: blue;
+}
+
+.jumbotron {
+	background-image: url("../images/friendsfamilyblkwht.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+}
+ 
+.jumbotron .container {
+	padding-top: 300px;
+	padding-bottom: 300px;
+}
+
+.btn-group-vertical .btn {
+	margin-bottom: 20px;
+}
+
+#category-img {
+	height: 300px;
+	width: 450px;
+}
+
+h2 span {
+	color: white;
+	font: bold 24px/45px Helvetica, Sans-Serif; 
+}
+
+
+
