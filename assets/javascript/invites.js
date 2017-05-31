@@ -53,6 +53,23 @@ function showMap() {
 			title: peopleInvited[i].inviteName
 		});
 	}
+
+	//create draggable marker
+	var myLatlng = new google.maps.LatLng(32.78,-117.01);
+	var selectCenter = new google.maps.Marker({
+		"position": myLatlng, 
+		"map": map, // handle of the map
+		"icon": "assets/images/avatar.jpg",
+		"draggable" :true
+	});
+	google.maps.event.addListener(
+		selectCenter,
+		'drag',
+		function() {
+			$("#longitude").val(selectCenter.position.lng());
+			$("#latitude").val(selectCenter.position.lat());
+		}
+	);
 }
 
 $(document).ready(function(){
@@ -69,4 +86,37 @@ $(document).ready(function(){
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});
+
+	$("#get-recommendations").on("click", function(){
+		var recommendLng = $("#longitude").val();
+		var recommendLat = $("#latitude").val();
+		console.log(recommendLng);
+		console.log(recommendLat)
+		//AJAX call to API to get recommedations
+		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			data: {
+				"term": "food",
+				"location": "",
+				"latitude": recommendLat,
+				"longitude": recommendLng,
+				"categories": "mexican",
+				"radius": "20000",
+				"open_now": "true",
+				"sort_by": "best_match",
+				"limit": "3",
+				"key": "1234567890"
+			}
+		}).done(function(response) {
+			var recommendations = response.businesses;
+			console.log(response)
+			for (var i = 0; i < recommendations.length; i++){
+				console.log(recommendations[i])
+			}
+		})
+
+	})
+
 })
