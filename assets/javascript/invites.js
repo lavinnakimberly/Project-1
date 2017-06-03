@@ -123,3 +123,24 @@ function recommendation(category){
 		})
 
 	}
+
+	function sendEmail(eventID, to){
+			var email = "danielfmurillo@yahoo.com"
+			var key = "1234567890"
+			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			data: {
+				"to": email,
+				"from": "chesteraustin@gmail.com",
+				"eventID": "inviteeKey",
+				"userID": "userID",				
+				"key": key
+			}
+		}).done(function(response) {		
+			console.log(response)
+			
+		})
+
+	}
