@@ -74,6 +74,41 @@ function showMap() {
 }
 
 $(document).ready(function(){
+
+	$("#add-invite").hide();
+	$("#invite-person").hide();
+	
+	$("#invite").append(
+
+	//inviter enters their email address
+	$("<input/>",{
+		type: 'text',
+		id: 'inviter',
+		email: "email",
+		placeholder: 'Enter Your Email',
+		class: "invite"
+	})
+		);
+	$("#invite").append(
+	$("<input/>",{
+		type: 'submit',
+		id: 'submitButton',
+		value: 'Submit'
+
+	})
+		);
+	//saves email to local storage and displays who to invite
+	$("#submitButton").on("click", function(){
+		var inviter = $("#inviter").val()		
+			$("#inviter").hide();
+			$("#submitButton").hide();
+			$("#add-invite").show();
+			$("#invite-person").show();
+		localStorage.setItem('email', inviter)		
+		console.log(localStorage.getItem("email"));
+	});			
+	
+
 	//Event Listener for doing invite
 	$("#invite-person").on("click", function(){
 		//Get person's details
@@ -125,7 +160,7 @@ function recommendation(category){
 	}
 
 	function sendEmail(eventID, to){
-			var email = "danielfmurillo@yahoo.com"
+			var email = localStorage.getItem("email")
 			var key = "1234567890"
 			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
 		$.ajax({
