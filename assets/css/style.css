@@ -2,6 +2,33 @@ body {
 	padding: 20px;	
 }
 
+h1 {
+	color: white;
+	font-family: "verdana";
+	padding: 40px;
+	font-size: 20px;
+}
+
+h2 {
+	text-align: center;
+}
+
+p {
+	font-size: 14px;
+}
+
+
+/* h3 {
+	text-align: center;
+}
+*/
+
+
+.invite-person-row {
+	padding: 20px;
+	text-align: center;
+}
+
 .text-center {
 	font-family: "verdana";
 	color: #708090;
@@ -20,8 +47,8 @@ body {
 }
  
 .jumbotron .container {
-	padding-top: 300px;
-	padding-bottom: 300px;
+	padding-top: 175px;
+	padding-bottom: 175px;
 	text-align: center;
 }
 
