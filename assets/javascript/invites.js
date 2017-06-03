@@ -115,11 +115,34 @@ function recommendation(category){
 				"key": "1234567890"
 			}
 		}).done(function(response) {
+			var response = $.trim(response)
+			var response = $.parseJSON(response)
+			//check if response is json
 			var recommendations = response.businesses;
-			console.log(response)
 			for (var i = 0; i < recommendations.length; i++){
 				console.log(recommendations[i])
 			}
+		})
+
+	}
+
+	function sendEmail(eventID, to){
+			var email = "danielfmurillo@yahoo.com"
+			var key = "1234567890"
+			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			data: {
+				"to": email,
+				"from": "chesteraustin@gmail.com",
+				"eventID": "inviteeKey",
+				"userID": "userID",				
+				"key": key
+			}
+		}).done(function(response) {		
+			console.log(response)
+			
 		})
 
 	}
