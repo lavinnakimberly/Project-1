@@ -30,7 +30,16 @@
 
 </head>
 
-<body class="container">
+<body>
+	<section class="jumbotron">
+		<div class="container">
+		<img src="assets/images/convenelogo.jpg">
+	</div>
+	<div class="row">
+		<button class="btn btn-default btn-lg" id="sign-up" type="submit">Sign Up</button>
+		<button class="btn btn-default btn-lg" id="log-in" type="submit">Log In</button>
+	</section>
+
 	<!--This is a list of people that are being invited for this group -->
 	<div id="inviteList"></div>
 
@@ -41,6 +50,14 @@
 	<input type="submit" id="get-recommendations" value="Get Recommendations">
 	<input type="hidden" id="longitude" value="">
 	<input type="hidden" id="latitude" value="">
+	
+	<footer>
+    	<div class="container">
+      		Copyright &copy; 2017 Convene, Inc.
+    	</div>
+  	</footer>
+</body>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
