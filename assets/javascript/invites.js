@@ -68,7 +68,8 @@ function showMap() {
 		function() {
 			$("#longitude").val(selectCenter.position.lng());
 			$("#latitude").val(selectCenter.position.lat());
-		}
+			
+		},recommendation("food")
 	);
 }
 
@@ -87,7 +88,11 @@ $(document).ready(function(){
 		$("#add-invite").val('');
 	});
 
-	$("#get-recommendations").on("click", function(){
+	
+
+})
+
+function recommendation(category){
 		var recommendLng = $("#longitude").val();
 		var recommendLat = $("#latitude").val();
 		console.log(recommendLng);
@@ -102,8 +107,8 @@ $(document).ready(function(){
 				"location": "",
 				"latitude": recommendLat,
 				"longitude": recommendLng,
-				"categories": "mexican",
-				"radius": "20000",
+				"categories": category,
+				"radius": "5000",
 				"open_now": "true",
 				"sort_by": "best_match",
 				"limit": "3",
@@ -117,6 +122,4 @@ $(document).ready(function(){
 			}
 		})
 
-	})
-
-})
+	}
