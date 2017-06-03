@@ -74,7 +74,7 @@ function showMap() {
 }
 
 $(document).ready(function(){
-	//Event Listener for doing invite
+		//event listener for doing invite
 	$("#invite-person").on("click", function(){
 		//Get person's details
 		var invitee = $("#add-invite").val();
@@ -84,6 +84,7 @@ $(document).ready(function(){
 			"name": invitee,
 			"inviteKey": invitesRef.getKey()
 		});
+		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});
