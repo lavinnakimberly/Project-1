@@ -4,24 +4,34 @@ body {
 
 h1 {
 	color: white;
-	font-family: "verdana";
+	font-family: 'Roboto Condensed', sans-serif;
 	padding: 40px;
-	font-size: 20px;
+	font-size: 30px;
 }
 
 h2 {
+	font-size: 40px;
+	color: #4B0082;
 	text-align: center;
+	font-family: 'Roboto Condensed', sans-serif;
 }
 
 p {
-	font-size: 14px;
+	color: black;
+	font-size: 16px;
+	font-family: 'Roboto Condensed', sans-serif;
 }
 
-
-/* h3 {
-	text-align: center;
+h3 {
+	color: black;
+	font-family: 'Roboto Condensed', sans-serif;
 }
-*/
+
+h5 {
+	color: #35d492;
+	font-size: 25px;
+	font-family: 'Roboto Condensed', sans-serif;
+}
 
 
 .invite-person-row {
@@ -30,8 +40,9 @@ p {
 }
 
 .text-center {
-	font-family: "verdana";
-	color: #708090;
+	font-size: 50px;
+	color: #4B0082;
+	font-family: 'Roboto Condensed', sans-serif;
 }
 
 .friends {
@@ -44,6 +55,7 @@ p {
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;
+	width: 100%;
 }
  
 .jumbotron .container {
@@ -82,7 +94,7 @@ p {
 }
 
 .row {
-	padding: 50px;
+	padding: 10px;
 }
 
 .col-md-4:hover .middle {
@@ -90,6 +102,7 @@ p {
 }
 
 .text { 
+	font-family: 'Roboto Condensed', sans-serif
   	background-color:;
   	color: #20B2AA;
   	font-size: 50px;
@@ -104,7 +117,10 @@ p {
 	overflow: auto;
 	color: #fff;
 	background: #fff;
-	border-bottom: 2px solid #ccc;
+/*	border-bottom: 2px solid #ccc;
+}
+*/
+
 }
 	
 footer {
