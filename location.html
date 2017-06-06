@@ -7,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<title>Convene</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:30" rel="stylesheet">
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
@@ -21,61 +20,33 @@
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
-
+	<style>
+	#map {
+		height: 400px;
+		width: 100%;
+	}
+	</style>
 
 </head>
-
 <body>
-	<section class="jumbotron">
-		<div class="container">
-			<img src="assets/images/convenelogoorg.jpg">
-			<h1> The solution to finding a good place to meet up with friends.</h1>
-				<div class="invite-person-row">
-					<input type="text" placeholder="Email Address" id="add-invite" class="invite">
-					<input type="submit" id="invite-person" value="Invite Friend">
-				</div>
-		</div>
-	</section>
 
-	<div class="how-it-works-row">
-		<h2><u> HOW IT WORKS </u></h2>
-	</div>
-
-	<div class="row" class="how-it-works-steps">
-			<div class="col-md-3 text-center">
-				<h3> 1 </h3>
-				<h5> Invite your friends </h5>
-				<p></p>
-				<p>Send an invite via email and the invitees can enable geolocations.</p>
-			</div>
-			<div class="col-md-3 text-center">
-				<h3> 2 </h3>
-				<h5> Select a category </h5>
-				<p></p>
-				<p>Choose the venue type.</p>
-			</div>
-			<div class="col-md-3 text-center">
-				<h3> 3 </h3>
-				<h5> Select a location </h5>
-				<p></p>
-				<p>Choose the midpoint or best location based off the geolocations.</p>
-			</div>
-			<div class="col-md-3 text-center">
-				<h3> 4 </h3>
-				<h5> Select a recommendation </h5>
-				<p></p>
-				<p>Choose one of the top rated places based on the category and have a great time!</p>
-			</div>
-	</div>
 	<!--This is a list of people that are being invited for this group -->
 	<div id="inviteList"></div>
 
+
+
+	<div id="map"></div>
+	<input type="submit" id="get-recommendations" value="Get Recommendations">
+	<input type="hidden" id="longitude" value="">
+	<input type="hidden" id="latitude" value="">
+	
 	<footer>
     	<div class="container">
       		Copyright &copy; 2017 Convene, Inc.
     	</div>
   	</footer>
 </body>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
