@@ -78,7 +78,7 @@ $(document).ready(function(){
 	$("#add-invite").hide();
 	$("#invite-person").hide();
 
-$("#invite").append(
+/*$("#invite").append(
 	$("<input/>"),{
 		type: 'text',
 		placeholder: 'Enter Your Email',
@@ -111,13 +111,14 @@ $("#invite").append(
 		var inviteeKey = invitesRef.push({
 			"name": invitee,
 			"inviteKey": invitesRef.getKey()
-		});
+		});*/
 		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});	
 
-});
+}
+//);
 
 
 
