@@ -63,7 +63,6 @@ function showMap() {
 	console.log(peopleInvited)
 	var myLatLng = {"lat": peopleInvited[0].latitude, 
 					"lng": peopleInvited[0].longitude};
-
 	var bounds = new google.maps.LatLngBounds();
 
 	var map = new google.maps.Map(document.getElementById('map'), {
@@ -105,6 +104,40 @@ function showMap() {
 }
 
 $(document).ready(function(){
+	$("#add-invite").hide();
+	$("#invite-person").hide();
+	
+	$("#invite").append(
+
+	//inviter enters their email address
+	$("<input/>",{
+		type: 'text',
+		id: 'inviter',
+		email: "email",
+		placeholder: 'Enter Your Email',
+		class: "invite"
+	})
+		);
+	$("#invite").append(
+	//create submit button	
+	$("<input/>",{
+		type: 'submit',
+		id: 'submitButton',
+		value: 'Submit'
+
+	})
+		);
+	//saves email to local storage and displays who to invite
+	$("#submitButton").on("click", function(){
+		var inviter = $("#inviter").val()		
+			$("#inviter").hide();
+			$("#submitButton").hide();
+			$("#add-invite").show();
+			$("#invite-person").show();
+		localStorage.setItem('email', inviter)		
+		console.log(localStorage.getItem("email"));
+	});				
+
 	//Event Listener for doing invite
 	$("#invite-person").on("click", function(){
 		//Get person's details
@@ -116,65 +149,60 @@ $(document).ready(function(){
 			"inviteKey": invitesRef.getKey()
 		});
 
+		sendEmail(eventID, invitesRef.getKey(), invitee);
 		//Clear input to add another invite
 		$("#add-invite").val('');
-	});
-
-	
-
+	});	
 })
 
 function recommendation(category){
-		var recommendLng = $("#longitude").val();
-		var recommendLat = $("#latitude").val();
-		console.log(recommendLng);
-		console.log(recommendLat)
-		//AJAX call to API to get recommedations
-		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
-		$.ajax({
-			url: queryURL,
-			method: "GET",
-			data: {
-				"term": "food",
-				"location": "",
-				"latitude": recommendLat,
-				"longitude": recommendLng,
-				"categories": category,
-				"radius": "5000",
-				"open_now": "true",
-				"sort_by": "best_match",
-				"limit": "3",
-				"key": "1234567890"
-			}
-		}).done(function(response) {
-			var response = $.trim(response)
-			var response = $.parseJSON(response)
-			//check if response is json
-			var recommendations = response.businesses;
-			for (var i = 0; i < recommendations.length; i++){
-				console.log(recommendations[i])
-			}
-		})
+	var recommendLng = $("#longitude").val();
+	var recommendLat = $("#latitude").val();
+	console.log(recommendLng);
+	console.log(recommendLat)
+	//AJAX call to API to get recommedations
+	queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
+	$.ajax({
+		url: queryURL,
+		method: "GET",
+		data: {
+			"term": "food",
+			"location": "",
+			"latitude": recommendLat,
+			"longitude": recommendLng,
+			"categories": category,
+			"radius": "5000",
+			"open_now": "true",
+			"sort_by": "best_match",
+			"limit": "3",
+			"key": "1234567890"
+		}
+	}).done(function(response) {
+		var response = $.trim(response)
+		var response = $.parseJSON(response)
+		//check if response is json
+		var recommendations = response.businesses;
+		for (var i = 0; i < recommendations.length; i++){
+			console.log(recommendations[i])
+		}
+	})
+}
 
-	}
-
-	function sendEmail(eventID, to){
-			var email = "danielfmurillo@yahoo.com"
-			var key = "1234567890"
-			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
-		$.ajax({
-			url: queryURL,
-			method: "GET",
-			data: {
-				"to": email,
-				"from": "chesteraustin@gmail.com",
-				"eventID": "inviteeKey",
-				"userID": "userID",				
-				"key": key
-			}
-		}).done(function(response) {		
-			console.log(response)
-			
-		})
-
-	}
+function sendEmail(eventID, userID, to){
+		var email = localStorage.getItem("email")
+		var key = "1234567890"
+		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+	$.ajax({
+		url: queryURL,
+		method: "GET",
+		data: {
+			"to": to,
+			"from": email,
+			"eventID": eventID,
+			"userID": userID,				
+			"key": key
+		}
+	}).done(function(response) {		
+		console.log(response)
+	})
+}
