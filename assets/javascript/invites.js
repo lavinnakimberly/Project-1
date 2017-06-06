@@ -68,11 +68,46 @@ function showMap() {
 		function() {
 			$("#longitude").val(selectCenter.position.lng());
 			$("#latitude").val(selectCenter.position.lat());
-		}
+			
+		},recommendation("food")
 	);
 }
 
 $(document).ready(function(){
+	$("#add-invite").hide();
+	$("#invite-person").hide();
+	
+	$("#invite").append(
+
+	//inviter enters their email address
+	$("<input/>",{
+		type: 'text',
+		id: 'inviter',
+		email: "email",
+		placeholder: 'Enter Your Email',
+		class: "invite"
+	})
+		);
+	$("#invite").append(
+	$("<input/>",{
+		type: 'submit',
+		id: 'submitButton',
+		value: 'Submit'
+
+	})
+		);
+	//saves email to local storage and displays who to invite
+	$("#submitButton").on("click", function(){
+		var inviter = $("#inviter").val()		
+			$("#inviter").hide();
+			$("#submitButton").hide();
+			$("#add-invite").show();
+			$("#invite-person").show();
+		localStorage.setItem('email', inviter)		
+		console.log(localStorage.getItem("email"));
+	});			
+	
+
 	//Event Listener for doing invite
 	$("#invite-person").on("click", function(){
 		//Get person's details
@@ -83,11 +118,16 @@ $(document).ready(function(){
 			"name": invitee,
 			"inviteKey": invitesRef.getKey()
 		});
+		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});
 
-	$("#get-recommendations").on("click", function(){
+	
+
+})
+
+function recommendation(category){
 		var recommendLng = $("#longitude").val();
 		var recommendLat = $("#latitude").val();
 		console.log(recommendLng);
@@ -102,21 +142,42 @@ $(document).ready(function(){
 				"location": "",
 				"latitude": recommendLat,
 				"longitude": recommendLng,
-				"categories": "mexican",
-				"radius": "20000",
+				"categories": category,
+				"radius": "5000",
 				"open_now": "true",
 				"sort_by": "best_match",
 				"limit": "3",
 				"key": "1234567890"
 			}
 		}).done(function(response) {
+			var response = $.trim(response)
+			var response = $.parseJSON(response)
+			//check if response is json
 			var recommendations = response.businesses;
-			console.log(response)
 			for (var i = 0; i < recommendations.length; i++){
 				console.log(recommendations[i])
 			}
 		})
 
-	})
+	}
 
-})
+	function sendEmail(eventID, to){
+			var email = localStorage.getItem("email")
+			var key = "1234567890"
+			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+		$.ajax({
+			url: queryURL,
+			method: "GET",
+			data: {
+				"to": email,
+				"from": "chesteraustin@gmail.com",
+				"eventID": "inviteeKey",
+				"userID": "userID",				
+				"key": key
+			}
+		}).done(function(response) {		
+			console.log(response)
+			
+		})
+
+	}
