@@ -64,7 +64,7 @@ h5 {
 	}
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 400px) {
   .jumbotron {
 	background-image: url("../images/convene-mobile.jpg");
 	}
