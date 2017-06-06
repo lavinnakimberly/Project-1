@@ -57,6 +57,19 @@ h5 {
 	height: 100%;
 	width: 100%;
 }
+
+@media only screen and (max-width: 980px) {
+  .jumbotron {
+	background-image: url("../images/convene-tablet.jpg");
+	}
+}
+
+@media only screen and (max-width: 320px) {
+  .jumbotron {
+	background-image: url("../images/convene-mobile.jpg");
+	}
+}
+
  
 .jumbotron .container {
 	padding-top: 250px;
