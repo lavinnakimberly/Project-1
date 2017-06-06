@@ -36,7 +36,7 @@ $(document).ready(function(){
 			console.log(lng);
 
 			function savePosition(lat, lng) {
-				var inviteeResponse = invitesRef.update({
+				var inviteeResponse = invites.update({
 					"isAvailable": "yes",
 					"lat": lat,
 					"lng": lng
