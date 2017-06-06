@@ -32,7 +32,6 @@ function showMap() {
 	console.log(peopleInvited)
 	var myLatLng = {"lat": peopleInvited[0].latitude, 
 					"lng": peopleInvited[0].longitude};
-
 	var bounds = new google.maps.LatLngBounds();
 
 	var map = new google.maps.Map(document.getElementById('map'), {
@@ -89,6 +88,7 @@ $(document).ready(function(){
 	})
 		);
 	$("#invite").append(
+	//create submit button	
 	$("<input/>",{
 		type: 'submit',
 		id: 'submitButton',
@@ -105,8 +105,7 @@ $(document).ready(function(){
 			$("#invite-person").show();
 		localStorage.setItem('email', inviter)		
 		console.log(localStorage.getItem("email"));
-	});			
-	
+	});				
 
 	//Event Listener for doing invite
 	$("#invite-person").on("click", function(){
@@ -121,10 +120,7 @@ $(document).ready(function(){
 		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
-	});
-
-	
-
+	});	
 })
 
 function recommendation(category){
