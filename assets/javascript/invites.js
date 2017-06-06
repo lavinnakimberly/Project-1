@@ -198,11 +198,11 @@ function sendEmail(eventID, userID, to){
 		data: {
 			"to": to,
 			"from": email,
-			"eventID": eventID,
-			"userID": userID,				
+			"eventID": userID,
+			"userID": eventID,
 			"key": key
 		}
-	}).done(function(response) {		
+	}).done(function(response) {
 		console.log(response)
 	})
 }
