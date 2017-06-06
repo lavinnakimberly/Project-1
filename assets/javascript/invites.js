@@ -74,41 +74,35 @@ function showMap() {
 }
 
 $(document).ready(function(){
+
 	$("#add-invite").hide();
 	$("#invite-person").hide();
-	
-	$("#invite").append(
 
-	//inviter enters their email address
-	$("<input/>",{
+$("#invite").append(
+	$("<input/>"),{
 		type: 'text',
-		id: 'inviter',
-		email: "email",
 		placeholder: 'Enter Your Email',
-		class: "invite"
+		id: 'enter-email',
+		name: 'email'
 	})
-		);
-	$("#invite").append(
-	$("<input/>",{
+$("#invite").append(
+	$("<input/>"),{
 		type: 'submit',
-		id: 'submitButton',
-		value: 'Submit'
-
+		placeholder: 'submit',
+		id: 'submitButton'
 	})
-		);
-	//saves email to local storage and displays who to invite
+
 	$("#submitButton").on("click", function(){
-		var inviter = $("#inviter").val()		
-			$("#inviter").hide();
+		var inviter = $("#enter-email").val();	
+			$("#enter-email").hide();
 			$("#submitButton").hide();
 			$("#add-invite").show();
 			$("#invite-person").show();
-		localStorage.setItem('email', inviter)		
-		console.log(localStorage.getItem("email"));
-	});			
-	
+						
+			});
 
-	//Event Listener for doing invite
+		//event listener for doing invite
+
 	$("#invite-person").on("click", function(){
 		//Get person's details
 		var invitee = $("#add-invite").val();
@@ -121,11 +115,11 @@ $(document).ready(function(){
 		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
-	});
+	});	
 
-	
+});
 
-})
+
 
 function recommendation(category){
 		var recommendLng = $("#longitude").val();
