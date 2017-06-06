@@ -149,7 +149,7 @@ $(document).ready(function(){
 			"inviteKey": invitesRef.getKey()
 		});
 
-		sendEmail(eventID, invitesRef.getKey(), invitee);
+		sendEmail(eventID, inviteeKey.getKey(), invitee);
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});	
@@ -198,8 +198,8 @@ function sendEmail(eventID, userID, to){
 		data: {
 			"to": to,
 			"from": email,
-			"eventID": userID,
-			"userID": eventID,
+			"eventID": eventID,
+			"userID": userID,
 			"key": key
 		}
 	}).done(function(response) {
