@@ -74,7 +74,6 @@ function showMap() {
 }
 
 $(document).ready(function(){
-
 	$("#add-invite").hide();
 	$("#invite-person").hide();
 	
@@ -119,6 +118,7 @@ $(document).ready(function(){
 			"name": invitee,
 			"inviteKey": invitesRef.getKey()
 		});
+		sendEmail();
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});
@@ -150,8 +150,10 @@ function recommendation(category){
 				"key": "1234567890"
 			}
 		}).done(function(response) {
+			var response = $.trim(response)
+			var response = $.parseJSON(response)
+			//check if response is json
 			var recommendations = response.businesses;
-			console.log(response)
 			for (var i = 0; i < recommendations.length; i++){
 				console.log(recommendations[i])
 			}
