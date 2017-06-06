@@ -91,7 +91,7 @@ $(document).ready(function(){
 	$("#invite").append(
 	$("<input/>",{
 		type: 'submit',
-		id: 'submit',
+		id: 'submitButton',
 		value: 'Submit'
 
 	})
