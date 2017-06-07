@@ -22,8 +22,8 @@ invitesRef.once("value", function(peopleRef) {
 
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
-		var invitee = {};
-		invitee.inviteName = person.name;
+		var invitee = {};		
+		invitee.inviteName = person.name;		
 		invitee.isAvailable = person.isAvailable;
 		invitee.key = personRef.getKey();
 		invitee.longitude  = person.lng;
@@ -121,8 +121,7 @@ function showMap() {
 
 $(document).ready(function(){
 	$("#add-invite").hide();
-	$("#invite-person").hide();
-	
+	$("#invite-person").hide();	
 	$("#invite").append(
 	//inviter enters their email address
 	$("<input/>",{
@@ -139,7 +138,6 @@ $(document).ready(function(){
 		type: 'submit',
 		id: 'submitButton',
 		value: 'Submit'
-
 	})
 		);
 	//saves email to local storage and displays who to invite
@@ -161,7 +159,8 @@ $(document).ready(function(){
 		//save to FireBase
 		var inviteeKey = invitesRef.push({
 			"name": invitee,
-			"inviteKey": invitesRef.getKey()
+			"inviteKey": invitesRef.getKey(),
+			"isAvailable": "Has not reponded"
 		});
 
 		sendEmail(eventID, inviteeKey.getKey(), invitee);
