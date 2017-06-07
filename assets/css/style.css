@@ -122,6 +122,15 @@ h5 {
   	padding: 16px 32px;
 }
 
+.btn-default {
+	background: #35d492;
+	margin-top: 5px;
+}
+
+.available-text {
+	font-size: 40px;
+}
+
 #masthead {
 	position: static;
 	z-index: 99;
