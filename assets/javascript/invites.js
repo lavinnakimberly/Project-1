@@ -19,6 +19,7 @@ var peopleInvited = [];
 
 //Initial load of firebase data
 invitesRef.once("value", function(peopleRef) {
+
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
 		var invitee = {};
@@ -31,6 +32,35 @@ invitesRef.once("value", function(peopleRef) {
 
 		//Create DIV to hold data
 		var person_div = $("<div>");
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+		var invitee_li = $("<li>");
+		invitee_li.html(invitee.inviteName + " | " + invitee.key + ")");
+		$("#inviteList").append(invitee_li);
+	})
+})
+
+//Read Database
+invites.on("child_changed", function(peopleRef) {
+	//empty inviteList div
+	$("#inviteList").empty();
+
+
+	peopleRef.forEach(function(personRef){
+		var person = personRef.val();
+		var invitee = {};
+		invitee.inviteName = person.name;
+		invitee.isAvailable = person.isAvailable;
+		invitee.key = personRef.getKey();
+		invitee.longitude  = person.lng;
+		invitee.latitude  = person.lat;
+		peopleInvited.push(invitee)
+
+		//Create DIV to hold data
+		var person_div = $("<div>");
+
 		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
 		$("#inviteList").append(person_div);
 	})
@@ -55,6 +85,14 @@ invites.on("child_changed", function(peopleRef) {
 		var person_div = $("<div>");
 		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
 		$("#inviteList").append(person_div);
+
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+		var invitee_li = $("<li>");
+		invitee_li.html(invitee.inviteName + " | " + invitee.key + ")");
+		$("#inviteList").append(invitee_li);
 	})
 })
 
