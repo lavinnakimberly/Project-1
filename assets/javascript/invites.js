@@ -108,7 +108,6 @@ $(document).ready(function(){
 	$("#invite-person").hide();
 	
 	$("#invite").append(
-
 	//inviter enters their email address
 	$("<input/>",{
 		type: 'text',
