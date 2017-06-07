@@ -1,11 +1,24 @@
 /*Get list of people that are in this invite*/ 
-var database = firebase.database();
-var invites = database.ref("/invites");
-var invitesRef = database.ref("/invites").push();
+/*Check to see if there is an eventID already for this event */
+var eventID = localStorage.getItem("eventID")
+if (eventID != null) {
+	var database = firebase.database();
+	var invites = database.ref("/invites/");
+	var invitesRef = database.ref("/invites/" + eventID);
+	console.log("has already eventID = " + eventID);
+}
+else {
+	var database = firebase.database();
+	var invites = database.ref("/invites/");
+	var invitesRef = database.ref("/invites/").push();
+	var eventID = invitesRef.getKey();
+	localStorage.setItem('eventID', eventID);
+	console.log("has new eventID = " + eventID);
+}
 var peopleInvited = [];
 
-//Read Database
-invites.on("child_added", function(peopleRef) {
+//Initial load of firebase data
+invitesRef.once("value", function(peopleRef) {
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
 		var invitee = {};
@@ -15,15 +28,33 @@ invites.on("child_added", function(peopleRef) {
 		invitee.longitude  = person.lng;
 		invitee.latitude  = person.lat;
 		peopleInvited.push(invitee)
-//		var inviteID = person.getKey();
 
 		//Create DIV to hold data
 		var person_div = $("<div>");
 		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
 		$("#inviteList").append(person_div);
+	})
+})
 
-		//put markers on map
-		showMap()
+//Read Database
+invites.on("child_changed", function(peopleRef) {
+	//empty inviteList div
+	$("#inviteList").empty();
+
+	peopleRef.forEach(function(personRef){
+		var person = personRef.val();
+		var invitee = {};
+		invitee.inviteName = person.name;
+		invitee.isAvailable = person.isAvailable;
+		invitee.key = personRef.getKey();
+		invitee.longitude  = person.lng;
+		invitee.latitude  = person.lat;
+		peopleInvited.push(invitee)
+
+		//Create DIV to hold data
+		var person_div = $("<div>");
+		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);
 	})
 })
 
@@ -117,63 +148,61 @@ $(document).ready(function(){
 			"name": invitee,
 			"inviteKey": invitesRef.getKey()
 		});
-		sendEmail();
+
+		sendEmail(eventID, inviteeKey.getKey(), invitee);
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});	
 })
 
 function recommendation(category){
-		var recommendLng = $("#longitude").val();
-		var recommendLat = $("#latitude").val();
-		console.log(recommendLng);
-		console.log(recommendLat)
-		//AJAX call to API to get recommedations
-		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
-		$.ajax({
-			url: queryURL,
-			method: "GET",
-			data: {
-				"term": "food",
-				"location": "",
-				"latitude": recommendLat,
-				"longitude": recommendLng,
-				"categories": category,
-				"radius": "5000",
-				"open_now": "true",
-				"sort_by": "best_match",
-				"limit": "3",
-				"key": "1234567890"
-			}
-		}).done(function(response) {
-			var response = $.trim(response)
-			var response = $.parseJSON(response)
-			//check if response is json
-			var recommendations = response.businesses;
-			for (var i = 0; i < recommendations.length; i++){
-				console.log(recommendations[i])
-			}
-		})
+	var recommendLng = $("#longitude").val();
+	var recommendLat = $("#latitude").val();
+	console.log(recommendLng);
+	console.log(recommendLat)
+	//AJAX call to API to get recommedations
+	queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
+	$.ajax({
+		url: queryURL,
+		method: "GET",
+		data: {
+			"term": "food",
+			"location": "",
+			"latitude": recommendLat,
+			"longitude": recommendLng,
+			"categories": category,
+			"radius": "5000",
+			"open_now": "true",
+			"sort_by": "best_match",
+			"limit": "3",
+			"key": "1234567890"
+		}
+	}).done(function(response) {
+		var response = $.trim(response)
+		var response = $.parseJSON(response)
+		//check if response is json
+		var recommendations = response.businesses;
+		for (var i = 0; i < recommendations.length; i++){
+			console.log(recommendations[i])
+		}
+	})
+}
 
-	}
-
-	function sendEmail(eventID, to){
-			var email = localStorage.getItem("email")
-			var key = "1234567890"
-			queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
-		$.ajax({
-			url: queryURL,
-			method: "GET",
-			data: {
-				"to": email,
-				"from": "chesteraustin@gmail.com",
-				"eventID": "inviteeKey",
-				"userID": "userID",				
-				"key": key
-			}
-		}).done(function(response) {		
-			console.log(response)
-			
-		})
-
-	}
+function sendEmail(eventID, userID, to){
+		var email = localStorage.getItem("email")
+		var key = "1234567890"
+		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+	$.ajax({
+		url: queryURL,
+		method: "GET",
+		data: {
+			"to": to,
+			"from": email,
+			"eventID": eventID,
+			"userID": userID,
+			"key": key
+		}
+	}).done(function(response) {
+		console.log(response)
+	})
+}

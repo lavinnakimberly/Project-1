@@ -9,7 +9,7 @@ $(document).ready(function(){
 		return results[1] || 0;
 	}
 	var userID = $.urlParam("id");
-	var eventID = $.urlParam("event");
+	var eventID = $.urlParam("eventID");
 
 	var database = firebase.database();
 	var invites = database.ref("/invites/" + eventID);
@@ -18,9 +18,6 @@ $(document).ready(function(){
 	//save IDs to local storage
 	localStorage.setItem("inviteID", userID);
 	localStorage.setItem("eventID", eventID);
-
-	//show prompt
-	$("#available-prompt").show();
 
 	//listener for available button
 	$(".availableBtn").on("click", function(){
