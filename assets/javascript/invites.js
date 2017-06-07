@@ -37,7 +37,8 @@ invitesRef.once("value", function(peopleRef) {
 
 		//Create List to hold approved invites
 		var invitee_li = $("<li>");
-		invitee_li.html(invitee.inviteName + " | " + invitee.key + ")");
+		invitee_li.addClass("available-text")
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable) ;
 		$("#inviteList").append(invitee_li);
 	})
 })
@@ -47,7 +48,6 @@ invites.on("child_changed", function(peopleRef) {
 	//empty inviteList div
 	$("#inviteList").empty();
 
-
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
 		var invitee = {};
@@ -59,40 +59,18 @@ invites.on("child_changed", function(peopleRef) {
 		peopleInvited.push(invitee)
 
 		//Create DIV to hold data
-		var person_div = $("<div>");
-
+		/*var person_div = $("<div>");
 		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);
-	})
-})
-
-//Read Database
-invites.on("child_changed", function(peopleRef) {
-	//empty inviteList div
-	$("#inviteList").empty();
-
-	peopleRef.forEach(function(personRef){
-		var person = personRef.val();
-		var invitee = {};
-		invitee.inviteName = person.name;
-		invitee.isAvailable = person.isAvailable;
-		invitee.key = personRef.getKey();
-		invitee.longitude  = person.lng;
-		invitee.latitude  = person.lat;
-		peopleInvited.push(invitee)
-
-		//Create DIV to hold data
-		var person_div = $("<div>");
-		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);
+		$("#inviteList").append(person_div);*/
 
 		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
 		$("#inviteList").append(person_div);*/
 
 		//Create List to hold approved invites
 		var invitee_li = $("<li>");
-		invitee_li.html(invitee.inviteName + " | " + invitee.key + ")");
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable);
 		$("#inviteList").append(invitee_li);
+
 	})
 })
 
