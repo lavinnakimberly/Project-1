@@ -19,6 +19,7 @@ var peopleInvited = [];
 
 //Initial load of firebase data
 invitesRef.once("value", function(peopleRef) {
+
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
 		var invitee = {};
@@ -31,8 +32,14 @@ invitesRef.once("value", function(peopleRef) {
 
 		//Create DIV to hold data
 		var person_div = $("<div>");
-		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+		var invitee_li = $("<li>");
+		invitee_li.addClass("available-text")
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable) ;
+		$("#inviteList").append(invitee_li);
 	})
 })
 
@@ -52,9 +59,18 @@ invites.on("child_changed", function(peopleRef) {
 		peopleInvited.push(invitee)
 
 		//Create DIV to hold data
-		var person_div = $("<div>");
+		/*var person_div = $("<div>");
 		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);
+		$("#inviteList").append(person_div);*/
+
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+		var invitee_li = $("<li>");
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable);
+		$("#inviteList").append(invitee_li);
+
 	})
 })
 
