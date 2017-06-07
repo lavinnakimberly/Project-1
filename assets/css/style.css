@@ -58,6 +58,20 @@ h5 {
 	width: 100%;
 }
 
+.final-jumbotron {
+	background-image: url("../images/final-background.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+	width: 100%;
+}
+
+.final-jumbotron .container {
+	padding-top: 250px;
+	padding-bottom: 250px;
+	text-align: center;
+}
+
 @media only screen and (max-width: 980px) {
   .jumbotron {
 	background-image: url("../images/convene-tablet.jpg");
