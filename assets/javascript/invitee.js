@@ -115,7 +115,7 @@ $(document).ready(function(){
 	}
 })
 
-invites.on("child_changed", function(peopleRef) {
+invites.on("value", function(peopleRef) {
 	//empty inviteList div
 	$("#inviteList").empty();
 
