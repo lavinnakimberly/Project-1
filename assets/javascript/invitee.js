@@ -19,6 +19,27 @@ $(document).ready(function(){
 	localStorage.setItem("inviteID", userID);
 	localStorage.setItem("eventID", eventID);
 
+	var nameInvite = localStorage.getItem("nameInvite")
+
+	//If these variables have already been set previously, no need to ask the user again.
+	if (nameInvite === null) {
+		$("#invite-name").show();
+	} else {
+		$("#invite-response").show();
+	}
+
+	//Save name to local storage
+	$("#save-name").on("click", function(){
+		var nameInvite = $("#name").val();
+		localStorage.setItem("nameInvite", nameInvite);
+		var inviteeResponse = invitesRef.update({
+			"name": nameInvite
+		});
+
+		$("#invite-name").hide();
+		$("#invite-response").show();
+	});	
+
 	//listener for available button
 	$(".availableBtn").on("click", function(){
 		var response = $(this).attr("data-isAvailable");
@@ -37,7 +58,7 @@ $(document).ready(function(){
 
 			function savePosition(lat, lng) {
 				var inviteeResponse = invitesRef.update({
-					"isAvailable": "yes",
+					"isAvailable": "is available",
 					"lat": lat,
 					"lng": lng
 				});
@@ -50,7 +71,7 @@ $(document).ready(function(){
 		else if (response === "no") {
 			//mark as not available on FIREBASE
 			var inviteeResponse = invitesRef.update({
-				"isAvailable": "no"
+				"isAvailable": "is not available"
 			});
 
 		}

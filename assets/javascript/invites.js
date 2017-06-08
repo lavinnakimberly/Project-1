@@ -18,7 +18,37 @@ else {
 var peopleInvited = [];
 
 //Initial load of firebase data
+/*
 invitesRef.once("value", function(peopleRef) {
+	$("#inviteList").empty();
+
+	peopleRef.forEach(function(personRef){
+		var person = personRef.val();
+		var invitee = {};
+		invitee.inviteName = person.name;
+		invitee.isAvailable = person.isAvailable;
+		invitee.key = personRef.getKey();
+		invitee.longitude  = person.lng;
+		invitee.latitude  = person.lat;
+		peopleInvited.push(invitee)
+
+		//Create DIV to hold data
+		var person_div = $("<div>");
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+/*
+		var invitee_li = $("<li>");
+		invitee_li.addClass("available-text")
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable) ;
+		$("#inviteList").append(invitee_li);
+	})
+})
+*/
+//Watch for new invites
+invitesRef.on("value", function(peopleRef) {
+	$("#inviteList").empty();
 
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
@@ -44,7 +74,7 @@ invitesRef.once("value", function(peopleRef) {
 })
 
 //Read Database
-invites.on("child_changed", function(peopleRef) {
+invitesRef.on("child_changed", function(peopleRef) {
 	//empty inviteList div
 	$("#inviteList").empty();
 
@@ -74,94 +104,49 @@ invites.on("child_changed", function(peopleRef) {
 	})
 })
 
-function showMap() {
-	console.log("initMap run");
-	console.log(peopleInvited)
-	var myLatLng = {"lat": peopleInvited[0].latitude, 
-					"lng": peopleInvited[0].longitude};
-	var bounds = new google.maps.LatLngBounds();
-
-	var map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 14,
-		center: myLatLng
-	});
-
-	//Loop through peopleInvited array and create markers for each person
-	for (var i = 0; i < peopleInvited.length; i++) {
-		console.log(peopleInvited[i])
-
-		var position = new google.maps.LatLng(peopleInvited[i].latitude, peopleInvited[i].longitude);
-		console.log(position)
-		bounds.extend(position);
-		var marker = new google.maps.Marker({
-			position: position,
-			map: map,
-			title: peopleInvited[i].inviteName
-		});
-	}
-
-	//create draggable marker
-	var myLatlng = new google.maps.LatLng(32.78,-117.01);
-	var selectCenter = new google.maps.Marker({
-		"position": myLatlng, 
-		"map": map, // handle of the map
-		"icon": "assets/images/avatar.jpg",
-		"draggable" :true
-	});
-	google.maps.event.addListener(
-		selectCenter,
-		'drag',
-		function() {
-			$("#longitude").val(selectCenter.position.lng());
-			$("#latitude").val(selectCenter.position.lat());
-			
-		},recommendation("food")
-	);
-}
 
 $(document).ready(function(){
-	$("#add-invite").hide();
-	$("#invite-person").hide();
-	
-	$("#invite").append(
-	//inviter enters their email address
-	$("<input/>",{
-		type: 'text',
-		id: 'inviter',
-		email: "email",
-		placeholder: 'Enter Your Email',
-		class: "invite"
-	})
-		);
-	$("#invite").append(
-	//create submit button	
-	$("<input/>",{
-		type: 'submit',
-		id: 'submitButton',
-		value: 'Submit'
+	var name = localStorage.getItem("name")
+	var email = localStorage.getItem("email")
 
-	})
-		);
-	//saves email to local storage and displays who to invite
-	$("#submitButton").on("click", function(){
-		var inviter = $("#inviter").val()		
-			$("#inviter").hide();
-			$("#submitButton").hide();
-			$("#add-invite").show();
-			$("#invite-person").show();
-		localStorage.setItem('email', inviter)		
-		console.log(localStorage.getItem("email"));
-	});				
+	//If these variables have already been set previously, no need to ask the user again.
+	if (name === null) {
+		$("#invitee-name").show();
+	} else {
+		if (email === null) {
+			$("#invitee-address").show();
+		} else {
+			$("#invitee-address").hide();
+			$("#invite-send").show();
+		}
+	}
+
+	//Save name to local storage
+	$("#save-name").on("click", function(){
+		var name = $("#name").val();
+		localStorage.setItem("name", name);
+		$("#invitee-name").hide();
+		$("#invitee-address").show();
+	});	
+
+	//Save email to local storage
+	$("#save-email").on("click", function(){
+		var email = $("#email").val();
+		localStorage.setItem("email", email);
+		$("#invitee-address").hide();
+		$("#invite-send").show();
+	});	
 
 	//Event Listener for doing invite
 	$("#invite-person").on("click", function(){
 		//Get person's details
 		var invitee = $("#add-invite").val();
-		console.log(invitee);
 		//save to FireBase
+		//add default value for isAvailable field
 		var inviteeKey = invitesRef.push({
 			"name": invitee,
-			"inviteKey": invitesRef.getKey()
+			"inviteKey": invitesRef.getKey(),
+			"isAvailable": "has not responded yet"
 		});
 
 		sendEmail(eventID, inviteeKey.getKey(), invitee);
@@ -170,43 +155,10 @@ $(document).ready(function(){
 	});	
 })
 
-function recommendation(category){
-	var recommendLng = $("#longitude").val();
-	var recommendLat = $("#latitude").val();
-	console.log(recommendLng);
-	console.log(recommendLat)
-	//AJAX call to API to get recommedations
-	queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=getRecommendations&returnFormat=JSON&";
-	$.ajax({
-		url: queryURL,
-		method: "GET",
-		data: {
-			"term": "food",
-			"location": "",
-			"latitude": recommendLat,
-			"longitude": recommendLng,
-			"categories": category,
-			"radius": "5000",
-			"open_now": "true",
-			"sort_by": "best_match",
-			"limit": "3",
-			"key": "1234567890"
-		}
-	}).done(function(response) {
-		var response = $.trim(response)
-		var response = $.parseJSON(response)
-		//check if response is json
-		var recommendations = response.businesses;
-		for (var i = 0; i < recommendations.length; i++){
-			console.log(recommendations[i])
-		}
-	})
-}
-
 function sendEmail(eventID, userID, to){
-		var email = localStorage.getItem("email")
-		var key = "1234567890"
-		queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
+	var email = localStorage.getItem("email")
+	var key = "1234567890"
+	queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
 	$.ajax({
 		url: queryURL,
 		method: "GET",

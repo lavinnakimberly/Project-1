@@ -163,6 +163,23 @@ footer {
 	text-align: center;
 }
 
+/*Default forms are hidden */
+#invitee-name {
+	display: none;
+}
 
+#invitee-address {
+	display: none;
+}
 
+#invite-send {
+	display: none;
+}
 
+#invite-name {
+	display: none;
+}
+
+#invite-response {
+	display: none;
+}

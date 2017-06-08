@@ -29,13 +29,40 @@
 	<section class="jumbotron">
 		<div class="container">
 			<img class="img-responsive" src="assets/images/convenelogoorg.jpg">
+
 			<h1> The solution to finding a good place to meet up with friends.</h1>
-				<div id="invite" class="invite-person-row">
-					<input type="text" placeholder="Email Address" id="add-invite" class="invite">
-					<input type="submit" id="invite-person" value="Invite Friend">
+
+			<div id="invite-form">
+				<div id="invitee-name">
+					<div class="form-group invite-person-row col-md-4 offset-md-4">
+						<input type="text" id="name" placeholder="Enter your name" class="invite form-control">
+					</div>
+					<div class="form-group invite-person-row">
+						<input type="submit" id="save-name" value="Save Name" class="btn">
+					</div>
 				</div>
+
+				<div id="invitee-address">
+					<div class="form-group invite-person-row col-md-4 offset-md-4">
+						<input type="text" id="email" placeholder="Enter your email" class="invite form-control">
+					</div>
+					<div class="form-group invite-person-row">
+						<input type="submit" id="save-email" value="Enter Email" class="btn">
+					</div>
+				</div>
+
+				<div id="invite-send">
+					<div class="form-group invite-person-row col-md-4 offset-md-4">
+						<input type="text" id="add-invite" placeholder="Invite via email" class="invite form-control">
+					</div>
+					<div class="form-group invite-person-row">
+						<input type="submit" id="invite-person" value="Send Invitiation" class="btn">
+					</div>
+				</div>
+			</div>
+
 			<!--This is a list of people that are being invited for this group -->
-				<ul id="inviteList"></ul>
+			<ul id="inviteList"></ul>
 		</div>
 	</section>
 	<a href="category.html" class="btn btn-default">Find Locations</a>
