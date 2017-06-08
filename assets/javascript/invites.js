@@ -149,13 +149,13 @@ $(document).ready(function(){
 			"isAvailable": "has not responded yet"
 		});
 
-		sendEmail(eventID, inviteeKey.getKey(), invitee);
+		sendEmail(eventID, inviteeKey.getKey(), invitee, name);
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});	
 })
 
-function sendEmail(eventID, userID, to){
+function sendEmail(eventID, userID, to, name){
 	var email = localStorage.getItem("email")
 	var key = "1234567890"
 	queryURL = "https://www.chesteraustin.us/project1/api.cfc?method=sendEmail&returnFormat=JSON&";
@@ -167,6 +167,7 @@ function sendEmail(eventID, userID, to){
 			"from": email,
 			"eventID": eventID,
 			"userID": userID,
+			"personName": name,
 			"key": key
 		}
 	}).done(function(response) {

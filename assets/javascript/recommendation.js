@@ -1,4 +1,3 @@
-var eventID = "-Km-JuIYb5bQ0Gk-uot5"
 var lat, lng;
 var category;
 var peopleInvited = [];
