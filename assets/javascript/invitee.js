@@ -2,6 +2,10 @@
 http://127.0.0.1:64379/Project-1/invite.html?id=-Kl7SUDDhFTGfL_iGaet&event=-Kl7SSVov1dXTeWlQ29A
 */ 
 var lat, lng;
+var invites;
+var invitesRef;
+var peopleInvited = [];
+
 $(document).ready(function(){
 	//Get userID from URL
 	$.urlParam = function(name){
@@ -12,8 +16,8 @@ $(document).ready(function(){
 	var eventID = $.urlParam("eventID");
 
 	var database = firebase.database();
-	var invites = database.ref("/invites/" + eventID);
-	var invitesRef = database.ref("/invites/" + eventID + "/" + userID);
+	invites = database.ref("/invites/" + eventID);
+	invitesRef = database.ref("/invites/" + eventID + "/" + userID);
 
 	//save IDs to local storage
 	localStorage.setItem("inviteID", userID);
@@ -76,7 +80,71 @@ $(document).ready(function(){
 
 		}
 	})
+
+	invites.on("value", function(peopleRef) {
+		//empty inviteList div
+		$("#inviteList").empty();
+
+		peopleRef.forEach(function(personRef){
+			var person = personRef.val();
+			var invitee = {};
+			invitee.inviteName = person.name;
+			invitee.isAvailable = person.isAvailable;
+			invitee.key = personRef.getKey();
+			invitee.longitude  = person.lng;
+			invitee.latitude  = person.lat;
+			peopleInvited.push(invitee)
+
+			//Create DIV to hold data
+			/*var person_div = $("<div>");
+			person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+			$("#inviteList").append(person_div);*/
+
+			/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+			$("#inviteList").append(person_div);*/
+
+			//Create List to hold approved invites
+			var invitee_li = $("<li>");
+			invitee_li.html(invitee.inviteName + " " + invitee.isAvailable);
+			$("#inviteList").append(invitee_li);
+		})
+	})
+
+	if (selectionSelcted === "yes") {
+		window.location.href = "final-recommendation.html";
+	}
 })
+
+invites.on("child_changed", function(peopleRef) {
+	//empty inviteList div
+	$("#inviteList").empty();
+
+	peopleRef.forEach(function(personRef){
+		var person = personRef.val();
+		var invitee = {};
+		invitee.inviteName = person.name;
+		invitee.isAvailable = person.isAvailable;
+		invitee.key = personRef.getKey();
+		invitee.longitude  = person.lng;
+		invitee.latitude  = person.lat;
+		peopleInvited.push(invitee)
+
+		//Create DIV to hold data
+		/*var person_div = $("<div>");
+		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
+		$("#inviteList").append(person_div);*/
+
+		//Create List to hold approved invites
+		var invitee_li = $("<li>");
+		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable);
+		$("#inviteList").append(invitee_li);
+
+	})
+})
+
 
 function getLocation() {
 	var myLocation;

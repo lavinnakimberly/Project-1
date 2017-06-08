@@ -27,7 +27,7 @@ $(document).ready(function(){
 //	recommendation(category);
 })
 
-invitesRef.once("value", function(peopleRef) {
+invitesRef.on("value", function(peopleRef) {
 	//empty inviteList div
 
 	peopleRef.forEach(function(personRef){
