@@ -33,7 +33,15 @@ h5 {
 	font-family: 'Roboto Condensed', sans-serif;
 }
 
-
+#inviteList {
+	list-style-type: none;
+	color: #ff9800;
+}
+.available-text {
+	font-size: 25px;
+	font-family: 'Roboto Condensed', sans-serif;
+	
+}
 .invite-person-row {
 	padding: 20px;
 	text-align: center;
@@ -141,7 +149,11 @@ h5 {
 	margin-top: 5px;
 }
 
+<<<<<<< Updated upstream
 #available-prompt .h2 {
+=======
+#available-promp .h2 {
+>>>>>>> Stashed changes
 	font-size: 40px;
 }
 
