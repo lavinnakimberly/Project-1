@@ -24,41 +24,21 @@
 </head>
 
 <body>
-	<!--This is a list of people that are being invited for this group -->
-	<div id="inviteList"></div>
-
-	<div id="map"></div>
-	<input type="hidden" id="longitude" value="32.7157">
-	<input type="hidden" id="latitude" value="-117.1611">
-
-	<div id="recommendations"></div>
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Confirm Selection</h4>
-				</div>
-				<div class="modal-body">
-					<p>Meet at <span id="selectedPlace"></span></p>
-					<input type="hidden" id="select-place">
-					<input type="hidden" id="select-address">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" id="selectLocation" class="btn btn-primary">Select Location</button>
-				</div>
-			</div>
+	<section class="final-jumbotron">
+		<div class="container">
+			<img class="img-responsive" src="assets/images/convenelogoorg.jpg">
+			<h1> See you at <span id="location-name"></span> soon!</h1>
+			<a id="location-address"></a>
+			<!--This is a list of people that are being invited for this group -->
+			<ul id="inviteList"></ul>
 		</div>
-	</div>
+	</section>
 
 	<footer>
-    	<div class="container">
-      		Copyright &copy; 2017 Convene, Inc.
-    	</div>
-  	</footer>
+		<div class="container">
+			Copyright &copy; 2017 Convene, Inc.
+		</div>
+	</footer>
 </body>
 
 
@@ -73,7 +53,7 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="assets/javascript/firebaseConfig.js"></script>
-<script src="assets/javascript/recommendation.js"></script>
+<script src="assets/javascript/finalChoice.js"></script>
 
 </body>
 </html>
