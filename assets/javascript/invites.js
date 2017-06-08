@@ -1,6 +1,7 @@
 /*Get list of people that are in this invite*/ 
 /*Check to see if there is an eventID already for this event */
 var eventID = localStorage.getItem("eventID")
+var name = localStorage.getItem("name")
 if (eventID != null) {
 	var database = firebase.database();
 	var invites = database.ref("/invites/");
@@ -17,35 +18,6 @@ else {
 }
 var peopleInvited = [];
 
-//Initial load of firebase data
-/*
-invitesRef.once("value", function(peopleRef) {
-	$("#inviteList").empty();
-
-	peopleRef.forEach(function(personRef){
-		var person = personRef.val();
-		var invitee = {};
-		invitee.inviteName = person.name;
-		invitee.isAvailable = person.isAvailable;
-		invitee.key = personRef.getKey();
-		invitee.longitude  = person.lng;
-		invitee.latitude  = person.lat;
-		peopleInvited.push(invitee)
-
-		//Create DIV to hold data
-		var person_div = $("<div>");
-		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);*/
-
-		//Create List to hold approved invites
-/*
-		var invitee_li = $("<li>");
-		invitee_li.addClass("available-text")
-		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable) ;
-		$("#inviteList").append(invitee_li);
-	})
-})
-*/
 //Watch for new invites
 invitesRef.on("value", function(peopleRef) {
 	$("#inviteList").empty();
@@ -59,11 +31,6 @@ invitesRef.on("value", function(peopleRef) {
 		invitee.longitude  = person.lng;
 		invitee.latitude  = person.lat;
 		peopleInvited.push(invitee)
-
-		//Create DIV to hold data
-		var person_div = $("<div>");
-		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);*/
 
 		//Create List to hold approved invites
 		var invitee_li = $("<li>");
@@ -87,14 +54,6 @@ invitesRef.on("child_changed", function(peopleRef) {
 		invitee.longitude  = person.lng;
 		invitee.latitude  = person.lat;
 		peopleInvited.push(invitee)
-
-		//Create DIV to hold data
-		/*var person_div = $("<div>");
-		person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);*/
-
-		/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-		$("#inviteList").append(person_div);*/
 
 		//Create List to hold approved invites
 		var invitee_li = $("<li>");
@@ -123,8 +82,14 @@ $(document).ready(function(){
 
 	//Save name to local storage
 	$("#save-name").on("click", function(){
-		var name = $("#name").val();
+		name = $("#name").val();
 		localStorage.setItem("name", name);
+		//Save name to firebase for original person
+		var inviteeKey = invitesRef.push({
+			"name": name,
+			"inviteKey": invitesRef.getKey(),
+			"isAvailable": "has initiated an event!"
+		});
 		$("#invitee-name").hide();
 		$("#invitee-address").show();
 	});	
@@ -146,7 +111,7 @@ $(document).ready(function(){
 		var inviteeKey = invitesRef.push({
 			"name": invitee,
 			"inviteKey": invitesRef.getKey(),
-			"isAvailable": "has not responded yet"
+			"isAvailable": "has not responded yet."
 		});
 
 		sendEmail(eventID, inviteeKey.getKey(), invitee, name);
