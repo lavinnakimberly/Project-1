@@ -1,6 +1,7 @@
 var lat, lng;
 var category;
 var peopleInvited = [];
+var eventID = localStorage.getItem("eventID")
 
 if (eventID != null) {
 	var database = firebase.database();
@@ -24,15 +25,6 @@ $(document).ready(function(){
 	}
 	category = $.urlParam("category");
 //	recommendation(category);
-
-	navigator.geolocation.getCurrentPosition(handle_geolocation_query);
-
-	function handle_geolocation_query(position){  
-		lat = position.coords.longitude;
-		lng =  position.coords.latitude; 
-	}  
-	console.log(lat);
-	console.log(lng);
 })
 
 invitesRef.once("value", function(peopleRef) {
@@ -54,17 +46,35 @@ invitesRef.once("value", function(peopleRef) {
 })
 
 function showMap() {
-	console.log("initMap run");
-	console.log(peopleInvited)
-	var myLatLng = {"lat": peopleInvited[0].latitude, 
-					"lng": peopleInvited[0].longitude};
+//	console.log("initMap run");
+//	console.log(peopleInvited)
+	var myLatLng = {"lat": 32.7157, 
+					"lng": -117.1611};
 
 	var bounds = new google.maps.LatLngBounds();
+	var myLatlng;
 
 	var map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 14,
+		zoom: 10,
 		center: myLatLng
 	});
+
+	// Try HTML5 geolocation.
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+		var myLatLng = {
+			lat: position.coords.latitude,
+			lng: position.coords.longitude
+		};
+
+		map.setCenter(myLatLng);
+		}, function() {
+		handleLocationError(true, infoWindow, map.getCenter());
+		});
+	} else {
+		// Browser doesn't support Geolocation
+		handleLocationError(false, infoWindow, map.getCenter());
+	}
 
 	//Loop through peopleInvited array and create markers for each person
 	for (var i = 0; i < peopleInvited.length; i++) {
@@ -82,9 +92,9 @@ function showMap() {
 	}
 
 	//create draggable marker
-	var myLatlng = new google.maps.LatLng(32.78,-117.01);
+	var markerLatlng = new google.maps.LatLng(32.78,-117.01);
 	var selectCenter = new google.maps.Marker({
-		"position": myLatlng, 
+		"position": markerLatlng, 
 		"map": map, // handle of the map
 		"icon": "assets/images/pin.jpg",
 		"draggable" :true
