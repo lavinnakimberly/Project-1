@@ -154,8 +154,8 @@ function recommendation(category){
 
 			recommendations_div.find("h1").text(recommendation.name);
 			recommendations_div.find("h2").text(recommendation.location.city);
-
-			$("#recommendations").append(recommendations_div);
+			recommendations_div.addClass("result")
+			recommendations_div.attr("data-id",markers.length);
 			var icon = category == "bars" ? "beer" : category == "coffee" ? "coffee" : "food";
 			markers.push(new google.maps.Marker({
 				scale: 0.5,
@@ -166,9 +166,21 @@ function recommendation(category){
 				    scaledSize: new google.maps.Size(20, 20)
 				}
 			}));
-
-//			console.log(recommendations[i])
+			$("#recommendations").append(recommendations_div);
 		})
 
 	})
+}
+$("#recommendations").on("click",".result",function(){
+	event.stopPropagation();
+	stopAnimation();
+	var i = $(this).attr("data-id");
+	$(this).addClass("selected");
+	markers[i].setAnimation(google.maps.Animation.BOUNCE);
+});
+
+function stopAnimation(){
+	markers.forEach(function(marker){
+		marker.setAnimation(null);
+	});
 }
