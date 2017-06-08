@@ -44,37 +44,42 @@ invitesRef.once("value", function(peopleRef) {
 	})
 	showMap()
 })
-
+var map,geocoder;
 function showMap() {
 //	console.log("initMap run");
 //	console.log(peopleInvited)
-	var myLatLng = {"lat": 32.7157, 
+	var myLatLng = {"lat": 32.7157,
 					"lng": -117.1611};
-
+	geocoder = new google.maps.Geocoder();
 	var bounds = new google.maps.LatLngBounds();
-	var myLatlng;
-
-	var map = new google.maps.Map(document.getElementById('map'), {
+	//var myLatlng;
+	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 10,
 		center: myLatLng
 	});
-
 	// Try HTML5 geolocation.
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
-		var myLatLng = {
-			lat: position.coords.latitude,
-			lng: position.coords.longitude
-		};
+			myLatLng = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude
+			};
 
-		map.setCenter(myLatLng);
+			map.setCenter(myLatLng);
+			selectCenter.setMap(null);
+			selectCenter.position = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				$("#longitude").val(selectCenter.position.lat());
+				$("#latitude").val(selectCenter.position.lng());
+			selectCenter.setMap(map);
+			recommendation(category)
 		}, function() {
-		handleLocationError(true, infoWindow, map.getCenter());
+			handleLocationError(true, infoWindow, map.getCenter());
 		});
 	} else {
 		// Browser doesn't support Geolocation
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
+
 
 	//Loop through peopleInvited array and create markers for each person
 	for (var i = 0; i < peopleInvited.length; i++) {
@@ -94,7 +99,7 @@ function showMap() {
 	//create draggable marker
 	var markerLatlng = new google.maps.LatLng(32.78,-117.01);
 	var selectCenter = new google.maps.Marker({
-		"position": markerLatlng, 
+		"position": markerLatlng,
 		"map": map, // handle of the map
 		"icon": "assets/images/pin.jpg",
 		"draggable" :true
@@ -112,8 +117,11 @@ function showMap() {
 //	newMarker.addListener('drag', recommendation);
 //	newMarker.addListener('dragend', recommendation);
 }
-
+var markers = [];
 function recommendation(category){
+	markers.forEach(function(marker){
+		marker.setMap(null);
+	});
 	var recommendLng = $("#longitude").val();
 	var recommendLat = $("#latitude").val();
 	console.log(recommendLng);
@@ -140,12 +148,27 @@ function recommendation(category){
 		var response = $.parseJSON(response)
 		//check if response is json
 		var recommendations = response.businesses;
-		for (var i = 0; i < recommendations.length; i++){
-			var recommendations_div = $("<div>");
-			recommendations_div.html(recommendations[i].name);
+		console.log(recommendations)
+		recommendations.forEach(function(recommendation){
+			var recommendations_div = $("<div><h1></h1><h2></h2></div>");
+
+			recommendations_div.find("h1").text(recommendation.name);
+			recommendations_div.find("h2").text(recommendation.location.city);
+
 			$("#recommendations").append(recommendations_div);
+			var icon = category == "bars" ? "beer" : category == "coffee" ? "coffee" : "food";
+			markers.push(new google.maps.Marker({
+				scale: 0.5,
+				"position": new google.maps.LatLng(recommendation.coordinates.latitude,recommendation.coordinates.longitude),
+				"map": map, // handle of the map
+				"icon": {
+				    url: "assets/images/"+icon+".png", // url
+				    scaledSize: new google.maps.Size(20, 20)
+				}
+			}));
 
 //			console.log(recommendations[i])
-		}
+		})
+
 	})
 }
