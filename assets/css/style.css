@@ -1,5 +1,5 @@
 body {
-	padding: 20px;	
+	padding: 20px;
 }
 
 h1 {
@@ -40,7 +40,7 @@ h5 {
 .available-text {
 	font-size: 25px;
 	font-family: 'Roboto Condensed', sans-serif;
-	
+
 }
 .invite-person-row {
 	padding: 20px;
@@ -92,7 +92,7 @@ h5 {
 	}
 }
 
- 
+
 .jumbotron .container {
 	padding-top: 250px;
 	padding-bottom: 250px;
@@ -136,7 +136,7 @@ h5 {
 	opacity: 1;
 }
 
-.text { 
+.text {
 	font-family: 'Roboto Condensed', sans-serif
   	color: #20B2AA;
   	font-size: 50px;
@@ -165,7 +165,7 @@ h5 {
 */
 
 }
-	
+
 footer {
 	text-align: center;
 }
@@ -189,4 +189,37 @@ footer {
 
 #invite-response {
 	display: none;
+}
+
+#recommendations {
+	position:absolute;
+	top:50px;
+	bottom:50px;
+	left:0;
+	background:#fff;
+	opacity:0.9;
+	padding:40px 20px;
+}
+
+#map {
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:0;
+	left:0;
+
+}
+
+#recommendations h1 {
+	color: #4B0082;
+	font-size: 1.2em;
+	text-align: left;
+	padding: 0;
+}
+
+#recommendations h2 {
+	font-size: 1.0em;
+	text-align: left;
+	padding: 0;
+	margin-bottom:20px;
 }
