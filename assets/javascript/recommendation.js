@@ -30,7 +30,8 @@ $(document).ready(function(){
 })
 
 invitesRef.on("value", function(peopleRef) {
-	//empty inviteList div
+	//empty peopleInvited array
+	peopleInvited = [];
 
 	peopleRef.forEach(function(personRef){
 		var person = personRef.val();
@@ -56,7 +57,7 @@ function showMap() {
 	var bounds = new google.maps.LatLngBounds();
 	//var myLatlng;
 	map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 10,
+		zoom: 13,
 		center: myLatLng
 	});
 	// Try HTML5 geolocation.
@@ -81,8 +82,8 @@ function showMap() {
 		// Browser doesn't support Geolocation
 		handleLocationError(false, infoWindow, map.getCenter());
 	}
-
-
+	
+console.log("peopleInvited ", peopleInvited)
 	//Loop through peopleInvited array and create markers for each person
 	for (var i = 0; i < peopleInvited.length; i++) {
 		console.log(peopleInvited[i])

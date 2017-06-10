@@ -34,6 +34,7 @@ h5 {
 }
 
 #inviteList {
+    padding: 0;
 	list-style-type: none;
 	color: #ff9800;
 }
@@ -137,8 +138,8 @@ h5 {
 }
 
 .text {
-	font-family: 'Roboto Condensed', sans-serif
-  	color: #20B2AA;
+	font-family: 'Roboto Condensed', sans-serif;
+	color: #20B2AA;
   	font-size: 50px;
   	padding: 16px 32px;
 }
@@ -233,4 +234,8 @@ footer {
 #location-address {
 	font-size: 30px;
 	color: #4B0082;
+}
+
+#new-event {
+	display: none;
 }

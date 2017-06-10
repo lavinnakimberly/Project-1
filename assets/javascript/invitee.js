@@ -76,7 +76,9 @@ $(document).ready(function(){
 		else if (response === "no") {
 			//mark as not available on FIREBASE
 			var inviteeResponse = invitesRef.update({
-				"isAvailable": "is not available"
+				"isAvailable": "is not available",
+				"lat": "",
+				"lng": ""
 			});
 
 		}
@@ -95,14 +97,6 @@ $(document).ready(function(){
 			invitee.longitude  = person.lng;
 			invitee.latitude  = person.lat;
 			peopleInvited.push(invitee)
-
-			//Create DIV to hold data
-			/*var person_div = $("<div>");
-			person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-			$("#inviteList").append(person_div);*/
-
-			/*person_div.html(invitee.inviteName + " | " + invitee.isAvailable + " ["+ invitee.key + "]" + "( " + invitee.longitude + " , " + invitee.latitude + " )");
-			$("#inviteList").append(person_div);*/
 
 			//Create List to hold approved invites
 			var invitee_li = $("<li>");
