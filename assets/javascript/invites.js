@@ -6,6 +6,7 @@ if (eventID != null) {
 	var database = firebase.database();
 	var invites = database.ref("/invites/");
 	var invitesRef = database.ref("/invites/" + eventID);
+	var locationRef = database.ref("/locations/" + eventID);
 	console.log("has already eventID = " + eventID);
 }
 else {
@@ -39,30 +40,6 @@ invitesRef.on("value", function(peopleRef) {
 		$("#inviteList").append(invitee_li);
 	})
 })
-
-//Read Database
-invitesRef.on("child_changed", function(peopleRef) {
-	//empty inviteList div
-	$("#inviteList").empty();
-
-	peopleRef.forEach(function(personRef){
-		var person = personRef.val();
-		var invitee = {};
-		invitee.inviteName = person.name;
-		invitee.isAvailable = person.isAvailable;
-		invitee.key = personRef.getKey();
-		invitee.longitude  = person.lng;
-		invitee.latitude  = person.lat;
-		peopleInvited.push(invitee)
-
-		//Create List to hold approved invites
-		var invitee_li = $("<li>");
-		invitee_li.html(invitee.inviteName + " " + invitee.isAvailable);
-		$("#inviteList").append(invitee_li);
-
-	})
-})
-
 
 $(document).ready(function(){
 	var name = localStorage.getItem("name")
@@ -118,6 +95,20 @@ $(document).ready(function(){
 		//Clear input to add another invite
 		$("#add-invite").val('');
 	});	
+
+	locationRef.on("value", function(locations) {
+		selectionSelcted = locations.val();
+		console.log(selectionSelcted);
+		if (selectionSelcted != undefined) {
+			$("#new-event").show();
+		}
+	})
+
+	//New Invite, reset everything
+	$("#new-event").on("click", function(){
+		localStorage.removeItem("eventID");
+		window.location.href = "index.html";
+	});
 })
 
 function sendEmail(eventID, userID, to, name){
