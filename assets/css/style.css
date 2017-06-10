@@ -160,18 +160,20 @@ h5 {
 	overflow: auto;
 	color: #fff;
 	background: #fff;
-/*	border-bottom: 2px solid #ccc;
-}
-*/
 
 }
+
+#masthead .container {
+	width: 100%;
+}
+
 
 footer {
 	text-align: center;
 }
 
 .footer-container {
-	padding-top: 70px;
+	padding-top: 50px;
 }
 
 /*Default forms are hidden */
